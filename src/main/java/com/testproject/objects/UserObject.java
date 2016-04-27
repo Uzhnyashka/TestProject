@@ -86,4 +86,5 @@ public class UserObject implements Serializable{
                 this.login + " " + this.password + " " +
                 this.phone + " " + this.role + "]\n";
     }
+
 }

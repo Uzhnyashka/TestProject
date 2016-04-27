@@ -36,7 +36,19 @@ public class UserService {
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public UserObject getUserByLogin(@PathParam("username") String username){
-        return null;
+        try{
+            users = (List<UserObject>) userDAO.getAllUsers();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        UserObject userObject = null;
+        for (UserObject usr : users){
+            if (username.equalsIgnoreCase(usr.getLogin())) {
+                userObject = usr;
+                break;
+            }
+        }
+        return userObject;
     }
 
     @PUT
@@ -51,6 +63,35 @@ public class UserService {
             e.printStackTrace();
             Response.status(404).build();
         }
+
+        return Response.status(201).entity(result).build();
+    }
+
+    @DELETE
+    @Path("/{usrname}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteUser(@PathParam("usrname") String username){
+        try{
+            users = (List<UserObject>) userDAO.getAllUsers();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        UserObject userObject = null;
+        for (UserObject usr : users){
+            if (username.equalsIgnoreCase(usr.getLogin())) {
+                userObject = usr;
+                break;
+            }
+        }
+
+        String result = "Deleted " + userObject;
+        try {
+            userDAO.deleteUser(userObject);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Response.status(404).build();
+        }
+
 
         return Response.status(201).entity(result).build();
     }

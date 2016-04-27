@@ -7,7 +7,7 @@ import com.sun.jersey.api.client.WebResource;
 /**
  * Created by bobyk on 27/04/16.
  */
-public class UserClientPut {
+public class UserClientDelete {
 
     public static void main(String[] args) {
 
@@ -16,13 +16,12 @@ public class UserClientPut {
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:8080/rest/users/add");
+                    .resource("http://localhost:8080");
 
-           // String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
-            String input = "{\"name\":\"Andrash\",\"login\":\"Andris\",\"password\":\"pswrd\", \"role\":\"user\", \"phone\":\"13213\"}";
+            //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
 
-            ClientResponse response = webResource.type("application/json")
-                    .put(ClientResponse.class, input);
+            ClientResponse response = webResource.path("/rest/users/eg0r").
+                    delete(ClientResponse.class);
 
             if (response.getStatus() != 201) {
                 throw new RuntimeException("Failed : HTTP error code : "
