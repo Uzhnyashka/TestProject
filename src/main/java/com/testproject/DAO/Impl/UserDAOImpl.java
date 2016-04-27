@@ -33,7 +33,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void updateUser(UserObject usr) throws SQLException {
-
+        Session session = null;
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(usr);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "updage fail", JOptionPane.OK_OPTION);
+        }finally {
+            if (session != null && session.isOpen()){
+                session.close();
+            }
+        }
     }
 
     public void deleteUser(UserObject usr) throws SQLException {
@@ -66,5 +78,18 @@ public class UserDAOImpl implements UserDAO {
             }
         }
         return users;
+    }
+
+    public UserObject getUserByLogin(String login) throws SQLException{
+        List<UserObject> users = (List<UserObject>) getAllUsers();
+        UserObject userObject = null;
+
+        for (UserObject usr : users){
+            if (login.equalsIgnoreCase(usr.getLogin())){
+                userObject = usr;
+                break;
+            }
+        }
+        return userObject;
     }
 }

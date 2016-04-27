@@ -7,8 +7,7 @@ import com.sun.jersey.api.client.WebResource;
 /**
  * Created by bobyk on 27/04/16.
  */
-public class UserClientPut {
-
+public class UserClientsPost {
     public static void main(String[] args) {
 
         try {
@@ -16,15 +15,15 @@ public class UserClientPut {
             Client client = Client.create();
 
             WebResource webResource = client
-                    .resource("http://localhost:8080/rest/users/update");
+                    .resource("http://localhost:8080/rest/users/add");
 
-            String input = "{\"id\":8, \"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12331221312\"}";
-           // String input = "{\"name\":\"Andrash\",\"login\":\"Andris\",\"password\":\"pswrd\", \"role\":\"user\", \"phone\":\"13213\"}";
+            //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
+             String input = "{\"name\":\"Andrash\",\"login\":\"Andris\",\"password\":\"pswrd\", \"role\":\"user\", \"phone\":\"13213\"}";
 
             ClientResponse response = webResource.type("application/json")
-                    .put(ClientResponse.class, input);
+                    .post(ClientResponse.class, input);
 
-            if (response.getStatus() >= 400) {
+            if (response.getStatus() != 201) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + response.getStatus());
             }

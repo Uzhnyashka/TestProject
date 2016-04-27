@@ -36,22 +36,16 @@ public class UserService {
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public UserObject getUserByLogin(@PathParam("username") String username){
+        UserObject userObject = null;
         try{
-            users = (List<UserObject>) userDAO.getAllUsers();
+            userObject = userDAO.getUserByLogin(username);
         }catch (Exception e){
             e.printStackTrace();
-        }
-        UserObject userObject = null;
-        for (UserObject usr : users){
-            if (username.equalsIgnoreCase(usr.getLogin())) {
-                userObject = usr;
-                break;
-            }
         }
         return userObject;
     }
 
-    @PUT
+    @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(UserObject usr){
@@ -68,20 +62,14 @@ public class UserService {
     }
 
     @DELETE
-    @Path("/{usrname}")
+    @Path("/{username}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteUser(@PathParam("usrname") String username){
+    public Response deleteUser(@PathParam("username") String username){
+        UserObject userObject = null;
         try{
-            users = (List<UserObject>) userDAO.getAllUsers();
+            userObject = userDAO.getUserByLogin(username);
         }catch (Exception e){
             e.printStackTrace();
-        }
-        UserObject userObject = null;
-        for (UserObject usr : users){
-            if (username.equalsIgnoreCase(usr.getLogin())) {
-                userObject = usr;
-                break;
-            }
         }
 
         String result = "Deleted " + userObject;
@@ -92,7 +80,19 @@ public class UserService {
             Response.status(404).build();
         }
 
-
         return Response.status(201).entity(result).build();
+    }
+
+    @PUT
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public UserObject updateUser(UserObject usr){
+        try {
+            userDAO.updateUser(usr);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usr;
     }
 }

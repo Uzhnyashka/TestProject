@@ -20,7 +20,7 @@ public class UserClientDelete {
 
             //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
 
-            ClientResponse response = webResource.path("/rest/users/eg0r").
+            ClientResponse response = webResource.path("/rest/users/andris").
                     delete(ClientResponse.class);
 
             if (response.getStatus() != 201) {
