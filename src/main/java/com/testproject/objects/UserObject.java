@@ -3,6 +3,7 @@ package com.testproject.objects;
 import javax.management.relation.Role;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by bobyk on 27/04/16.

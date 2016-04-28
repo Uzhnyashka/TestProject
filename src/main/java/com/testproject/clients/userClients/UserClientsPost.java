@@ -21,7 +21,8 @@ public class UserClientsPost {
                     .resource("http://localhost:8080/rest/users/add");
 
             //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
-             String input = "{\"name\":\"Andrash\",\"login\":\"Andriska\",\"password\":\"pswrd\", \"role\":\"user\", \"phone\":\"13213\"}";
+            // String input = "{\"name\":\"Andrash\",\"login\":\"Andriska\",\"password\":\"pswrd\",\"role\":\"user\",\"phone\":\"13213\"}";
+            String input = "{\"name\":\"Ivan\",\"login\":\"Vanka\",\"password\":\"parol\",\"role\":\"user\",\"phone\":\"1312213\"}";
 
          /*   ClientResponse resp = webResource.get(ClientResponse.class);
             JSONObject entity = resp.getEntity(JSONObject.class);

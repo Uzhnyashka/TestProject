@@ -2,6 +2,7 @@ package com.testproject.DAO.Impl;
 
 import com.testproject.DAO.OrderDAO;
 import com.testproject.objects.OrderObject;
+import com.testproject.objects.UserObject;
 import com.testproject.services.OrderService;
 import com.testproject.utils.HibernateUtil;
 import org.hibernate.Session;
@@ -18,15 +19,51 @@ import java.util.List;
 public class OrderDAOImpl implements OrderDAO{
 
     public void addOrder(OrderObject order) throws SQLException {
-
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.save(order);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "add() fail for Order", JOptionPane.OK_OPTION);
+        }finally {
+            if (session != null && session.isOpen()){
+                session.close();
+            }
+        }
     }
 
     public void updateOrder(OrderObject order) throws SQLException {
-
+        Session session = null;
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(order);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "update() fail for Order", JOptionPane.OK_OPTION);
+        }finally {
+            if (session != null && session.isOpen()){
+                session.close();
+            }
+        }
     }
 
     public void deleteOrder(OrderObject order) throws SQLException {
-
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.delete(order);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "delete() fail for Order", JOptionPane.OK_OPTION);
+        }finally {
+            if (session != null && session.isOpen()){
+                session.close();
+            }
+        }
     }
 
     public Collection getAllOrders() throws SQLException {
@@ -45,8 +82,33 @@ public class OrderDAOImpl implements OrderDAO{
         return orders;
     }
 
-    public Collection getOrdersByLogin() throws SQLException {
-        return null;
+    public Collection getOrdersByLogin(String login) throws SQLException {
+        List<OrderObject> orders = (List<OrderObject>) getAllOrders();
+        UserDAOImpl userDAO = new UserDAOImpl();
+        UserObject user = userDAO.getUserByLogin(login);
+        List<OrderObject> ordersForUser = new ArrayList<OrderObject>();
+        for (OrderObject order : orders){
+            if (order.getUserId().equals(user.getId())){
+                ordersForUser.add(order);
+            }
+        }
+        return ordersForUser;
+    }
+
+    public OrderObject getOrderById(Long id) throws SQLException{
+        Session session = null;
+        OrderObject order = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            order = (OrderObject) session.load(OrderObject.class, id);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "getOrderById() fail for Orders", JOptionPane.OK_OPTION);
+        }finally {
+            if (session != null && session.isOpen()){
+                session.close();
+            }
+        }
+        return order;
     }
 
 }

@@ -1,12 +1,10 @@
 package com.testproject.services;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.testproject.DAO.Impl.OrderDAOImpl;
 import com.testproject.objects.OrderObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class OrderService {
 
     static OrderDAOImpl orderDAO = new OrderDAOImpl();
 
-    @GET
+    @GET//get all orders
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public List<OrderObject> getAllOrders(){
@@ -34,11 +32,41 @@ public class OrderService {
         return orders;
     }
 
-    @POST
+    @GET//get order with id
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public OrderObject getOrderById(@PathParam("id") Long id){
+        OrderObject orderObject = null;
+        try{
+            orderObject = orderDAO.getOrderById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return orderObject;
+    }
+
+    @GET
+    @Path("/get/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<OrderObject> getOrdersForUser(@PathParam("username") String login){
+        List<OrderObject> orders = new ArrayList<OrderObject>();
+        try{
+            orders = (List<OrderObject>) orderDAO.getOrdersByLogin(login);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
+
+    @POST//add order
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addOrder(OrderObject order){
         String result = "Add " + order;
+        System.out.println(result);
         try{
             orderDAO.addOrder(order);
         }catch (Exception e){
@@ -47,5 +75,34 @@ public class OrderService {
         }
 
         return Response.status(201).entity(result).build();
+    }
+
+
+    @DELETE//delete order with id
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteOrder(@PathParam("id") Long id){
+        try{
+            OrderObject order = orderDAO.getOrderById(id);
+            orderDAO.deleteOrder(order);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.status(404).entity("Fail delete order with id:"+id).build();
+        }
+        return Response.status(201).entity("Delete order with id:"+id).build();
+    }
+
+    @PUT
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public OrderObject updateOrder(OrderObject order){
+        try{
+            orderDAO.updateOrder(order);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return order;
     }
 }

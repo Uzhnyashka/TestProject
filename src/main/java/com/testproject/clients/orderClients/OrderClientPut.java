@@ -4,42 +4,33 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
- * Created by bobyk on 27/04/16.
+ * Created by bobyk on 28/04/16.
  */
-public class OrderClientPost {
+public class OrderClientPut {
 
     public static void main(String[] args) {
+
         try {
 
             Client client = Client.create();
 
             long val = 1346524199000l;
-            Date date=new Date(val);
-            SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-            String dateText = df2.format(date);
-            System.out.println(dateText);
 
             WebResource webResource = client
-                    .resource("http://localhost:8080/rest/orders/add");
+                    .resource("http://localhost:8080/rest/orders/update");
 
-            //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
-            String input = "{" +
-                    "\"userId\":"+8+"," +
+            String input = "{\"id\":2, " +
+                    "\"userId\":10," +
                     "\"cashType\":\"USD\"," +
-                    "\"operationType\":\"sell\"," +
-                    "\"creationDate\":\""+val+"\","+
-                    "\"amount\":"+100+"," +
+                    "\"operationType\":\"buy\"," +
+                    "\"creationDate\":\""+val+"\"," +
+                    "\"amount\":\"100500\"," +
                     "\"status\":\"publish\"}";
-
-
-            System.out.println(input);
+            // String input = "{\"name\":\"Andrash\",\"login\":\"Andris\",\"password\":\"pswrd\", \"role\":\"user\", \"phone\":\"13213\"}";
 
             ClientResponse response = webResource.type("application/json")
-                    .post(ClientResponse.class, input);
+                    .put(ClientResponse.class, input);
 
             if (response.getStatus() >= 400) {
                 throw new RuntimeException("Failed : HTTP error code : "

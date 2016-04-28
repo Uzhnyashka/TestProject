@@ -13,5 +13,6 @@ public interface OrderDAO {
     public void updateOrder(OrderObject order) throws SQLException;
     public void deleteOrder(OrderObject order) throws SQLException;
     public Collection getAllOrders() throws SQLException;
-    public Collection getOrdersByLogin() throws SQLException;
+    public Collection getOrdersByLogin(String login) throws SQLException;
+    public OrderObject getOrderById(Long id) throws SQLException;
 }
