@@ -13,14 +13,12 @@
         <logout logout-url="/logout"/>
     </http>
 
-    <beans:bean id="customUserService" class="com.testproject.services.CustomUserDetailService"></beans:bean>
+    <beans:bean id="customUserService" class="com.testproject.services.CustomUserDetailService"/>
+
+    <global-method-security secured-annotations="enabled" />
 
     <authentication-manager>
-        <authentication-provider user-service-ref="customUserService">
-           <!-- <user-service>
-                <user name="admin" password="admin" authorities="ROLE_ADMIN" />
-            </user-service>-->
-        </authentication-provider>
+        <authentication-provider user-service-ref="customUserService"/>
     </authentication-manager>
 
 </beans:beans>

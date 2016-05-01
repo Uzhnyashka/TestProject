@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,12 +21,13 @@ import java.util.List;
  */
 public class CustomUserDetailService implements UserDetailsService {
 
-    UserDAOImpl userDAO = new UserDAOImpl();
+    private UserDAOImpl userDAO = new UserDAOImpl();
+    private UserObject userObject = null;
+    private static UserDetails user;
 
     @SuppressWarnings("deprecation")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserObject userObject = null;
         try {
             userObject = userDAO.getUserByLogin(username);
         } catch (SQLException e) {
@@ -36,8 +38,13 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("username " + username + " not found");
         }
         Collection<GrantedAuthority> gr = new ArrayList<GrantedAuthority>();
-        gr.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
-        UserDetails user = new User(username, userObject.getPassword(), true, true, true, true, gr);
+        if (userObject.getRole().equals("admin")) gr.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
+        else gr.add(new GrantedAuthorityImpl("ROLE_USER"));
+        user = new User(username, userObject.getPassword(), true, true, true, true, gr);
         return user;
+    }
+
+    public static String getUserName(){
+        return user.getUsername();
     }
 }

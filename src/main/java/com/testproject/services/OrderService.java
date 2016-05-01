@@ -2,11 +2,18 @@ package com.testproject.services;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
 import com.testproject.DAO.Impl.OrderDAOImpl;
+import com.testproject.DAO.Impl.UserDAOImpl;
 import com.testproject.objects.OrderObject;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +25,7 @@ import java.util.List;
 public class OrderService {
 
     static OrderDAOImpl orderDAO = new OrderDAOImpl();
+    static UserDAOImpl userDAO = new UserDAOImpl();
 
     @GET//get all orders
     @Path("/list")
@@ -27,6 +35,14 @@ public class OrderService {
         try{
             orders = (List<OrderObject>) orderDAO.getAllOrders();
         }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            if (userDAO.getUserByLogin(CustomUserDetailService.getUserName()).getRole().equals("admin")) return orders;
+            else {
+                orders = null;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return orders;
