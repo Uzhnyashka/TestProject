@@ -6,16 +6,20 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <http>
-        <intercept-url pattern="/rest/users/list" access="ROLE_USER" />
-        <http-basic/>
+    <http auto-config="true">
+        <intercept-url pattern="/rest/users/list*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/rest/orders/list*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/rest/users/add*" access="ROLE_ADMIN"/>
+        <logout logout-url="/logout"/>
     </http>
 
+    <beans:bean id="customUserService" class="com.testproject.services.CustomUserDetailService"></beans:bean>
+
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="mkyong" password="123456" authorities="ROLE_USER" />
-            </user-service>
+        <authentication-provider user-service-ref="customUserService">
+           <!-- <user-service>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN" />
+            </user-service>-->
         </authentication-provider>
     </authentication-manager>
 
