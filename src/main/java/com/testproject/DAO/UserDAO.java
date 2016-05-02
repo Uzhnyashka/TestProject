@@ -10,7 +10,9 @@ import java.util.Collection;
  * Created by bobyk on 27/04/16.
  */
 public interface UserDAO {
+    @Secured("ROLE_ADMIN")
     public void addUser(UserObject usr) throws SQLException;
+    @Secured("ROLE_ADMIN")
     public void updateUser(UserObject usr) throws SQLException;
     public void deleteUser(UserObject usr) throws SQLException;
     @Secured("ROLE_ADMIN")
