@@ -12,8 +12,8 @@
     <property name="show_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
 
-    <mapping class="com.testproject.objects.UserObject"></mapping>
-    <mapping class="com.testproject.objects.OrderObject"></mapping>
+    <mapping class="com.testproject.objects.UserObject"/>
+    <mapping class="com.testproject.objects.OrderObject"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

@@ -4,6 +4,7 @@ import com.testproject.DAO.UserDAO;
 import com.testproject.objects.UserObject;
 import com.testproject.utils.HibernateUtil;
 import org.hibernate.Session;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.swing.*;
 import java.sql.SQLException;

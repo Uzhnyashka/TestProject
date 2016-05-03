@@ -8,6 +8,6 @@ import sun.misc.BASE64Encoder;
 public class Base64Test {
 
     public static void main(String[] args){
-        System.out.println(new BASE64Encoder().encode("vanka:parol".getBytes()) );
+        System.out.println(new BASE64Encoder().encode("Egorka:parol".getBytes()) );
     }
 }

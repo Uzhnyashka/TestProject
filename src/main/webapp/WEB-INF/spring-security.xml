@@ -14,11 +14,14 @@
     </http>
 
     <beans:bean id="customUserService" class="com.testproject.services.CustomUserDetailService"/>
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
     <global-method-security secured-annotations="enabled" />
 
     <authentication-manager>
-        <authentication-provider user-service-ref="customUserService"/>
+        <authentication-provider user-service-ref="customUserService">
+            <password-encoder ref="encoder"/>
+        </authentication-provider>
     </authentication-manager>
 
 </beans:beans>

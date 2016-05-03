@@ -2,6 +2,7 @@ package com.testproject.services;
 
 import com.testproject.DAO.Impl.UserDAOImpl;
 import com.testproject.objects.UserObject;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -49,6 +50,13 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(UserObject usr){
+
+        String password = usr.getPassword();
+        System.out.println("password :" + password);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        usr.setPassword(hashedPassword);
+        System.out.println("hashedPassword :" + hashedPassword);
 
         String result = "Added new " + usr;
         try {

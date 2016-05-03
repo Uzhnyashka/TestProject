@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -24,7 +25,9 @@ public class UserClientsPost {
 
             //String input = "{\"name\":\"Egor\",\"login\":\"EG0R\",\"password\":\"Egor\", \"role\":\"admin\", \"phone\":\"12312\"}";
             // String input = "{\"name\":\"Andrash\",\"login\":\"Andriska\",\"password\":\"pswrd\",\"role\":\"user\",\"phone\":\"13213\"}";
-            String input = "{\"name\":\"Ivan\",\"login\":\"Egork4a\",\"password\":\"parol\",\"role\":\"user\",\"phone\":\"1312213\"}";
+
+
+            String input = "{\"name\":\"Ivan\",\"login\":\"Egorkdsda\",\"password\":\"parol\",\"role\":\"admin\",\"phone\":\"1312213\"}";
 
          /*   ClientResponse resp = webResource.get(ClientResponse.class);
             JSONObject entity = resp.getEntity(JSONObject.class);
@@ -37,11 +40,9 @@ public class UserClientsPost {
             entity = resp.getEntity(JSONObject.class);
             System.out.println(entity);*/
 
-            MultivaluedMap formData = new MultivaluedMapImpl();
-            formData.add("Authorization", "Basic RUcwUjpFZ29y");
 
             ClientResponse response = webResource
-                    .header("Authorization", "Basic RUcwUjpFZ29y")
+                    .header("Authorization", "Basic RWdvcmthOnBhcm9s")
                     .type("application/json")
                     .post(ClientResponse.class, input);
 
